@@ -1,4 +1,5 @@
-﻿using FoodMenu.Data.Entitie;
+﻿using Azure.Core;
+using FoodMenu.Data.Entitie;
 using FoodMenu.Models;
 using FoodMenu.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +29,16 @@ namespace FoodMenu.Controllers
                 Dishes = (List<Dish>)dishes
             };
             return View(menuData);
+        }
+
+        public async Task<IActionResult> Details(int dishId)
+        {
+            var dish = await _foodMenuRepository.GetDishAsync(dishId);
+            if(dish == null)
+            {
+                return NotFound();
+            }
+            return View(dish);
         }
     }
 }

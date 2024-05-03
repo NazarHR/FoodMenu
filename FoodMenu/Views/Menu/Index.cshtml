@@ -3,22 +3,26 @@
 @{
     ViewData["Title"] = "Menu";
 }
-<div class="row m-2">
+<div class="row sticky-top bg-white">
     @foreach (var tag in Model.Tags)
     {
-        <div class="col-2">
-            <a class="nav-item" asp-controller="Menu" asp-action="Index" asp-route-tag="@tag.Name">@tag.Name</a>
-        </div> 
+        <div class="col-2 mt-3 mb-3">
+            <a class="nav-link btn btn-light" asp-controller="Menu" asp-action="Index" asp-route-tag="@tag.Name">@tag.Name</a>
+        </div>
     }
 </div>
-<div class="row">
-    @foreach(var dish in Model.Dishes)
+<div class="row ms-3">
+    @for (int i = 0; i < 7; i++)
     {
-        <div class="col-3 m-2">
-            <img src="@dish.ImageURL" />
-            <h3>@dish.Name</h3>
-            <p>@dish.Name</p>
-            <p>@dish.Price</p>
-        </div>
+        @foreach (var dish in Model.Dishes)
+        {
+            <a asp-controller="Menu" asp-action="Details" asp-route-dishId="@dish.Id" class="col-3 text-decoration-none text-black">
+                <div class="col-3 m-2 justify-content-center" style="width:200px;height:400px">
+                    <img class="rounded-3" src="@dish.ImageURL" style="width:200px;height:300px" />
+                    <h3 class="text-center mt-2">@dish.Name</h3>
+                    <p class="d-flex text-decoration-underline justify-content-center">Price: @dish.Price.ToString("N2")$</p>
+                </div>
+            </a>
+        }
     }
 </div>
