@@ -1,4 +1,5 @@
 using FoodMenu.Data;
+using FoodMenu.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace FoodMenu
@@ -15,6 +16,8 @@ namespace FoodMenu
             builder.Services.AddDbContext<FoodMenuDBContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")
             ));
+            builder.Services.AddScoped<IFoodMenuRepository, FoodMenuRepository>();
+            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

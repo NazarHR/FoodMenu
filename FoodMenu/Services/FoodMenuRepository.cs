@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FoodMenu.Services
 {
-    public class FoodMenuRepository
+    public class FoodMenuRepository : IFoodMenuRepository
     {
         private readonly FoodMenuDBContext _dbContext;
 
@@ -24,7 +24,7 @@ namespace FoodMenu.Services
         }
         public async Task<IEnumerable<Dish>> GetDishesAsync(string fullOrPartitialName)
         {
-            return await _dbContext.Dishes.Where(d=>d.Name.Contains(fullOrPartitialName)).ToListAsync();
+            return await _dbContext.Dishes.Where(d => d.Name.Contains(fullOrPartitialName)).ToListAsync();
         }
     }
 }

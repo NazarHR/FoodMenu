@@ -1,0 +1,13 @@
+﻿@using FoodMenu.Data.Entitie
+@model List<Tag>
+@{
+    ViewData["Title"] = "Menu";
+}
+<div class="row">
+    @foreach (var tag in Model)
+    {
+        <div class="col-2">
+            @tag.Name
+        </div> 
+    }
+</div>
