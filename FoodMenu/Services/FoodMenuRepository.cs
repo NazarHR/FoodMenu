@@ -18,7 +18,13 @@ namespace FoodMenu.Services
             return await _dbContext.Tags.Include(dt=>dt.DishTags).ThenInclude(d=>d.Dish)
                 .ToListAsync();
         }
-
+        public async Task<Dish> GetDishAsync(int id)
+        {
+            return await _dbContext.Dishes
+                .Include(di=>di.DishIngredients)
+                .ThenInclude(i => i.Ingredient)
+                .FirstOrDefaultAsync(d => d.Id == id);
+        }
         public async Task<IEnumerable<Dish>> GetDishesAsync()
         {
             return await _dbContext.Dishes.ToListAsync();
