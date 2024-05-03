@@ -1,4 +1,6 @@
-﻿using FoodMenu.Services;
+﻿using FoodMenu.Data.Entitie;
+using FoodMenu.Models;
+using FoodMenu.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodMenu.Controllers
@@ -11,11 +13,21 @@ namespace FoodMenu.Controllers
         {
             _foodMenuRepository = foodMenuRepository;
         }
-
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> IndexAsync(string? tag)
         {
-            var Tags = await _foodMenuRepository.GetTagsAsync();
-            return View(Tags);
+            List<Tag> tags = (List<Tag>)await _foodMenuRepository.GetTagsAsync();
+            
+            if (tag == null)
+            {
+                tag = tags[0].Name;
+            }
+            List<Dish> dishes = (List<Dish>)await _foodMenuRepository.GetDishesAsync(tag);
+            var menuData = new MenuDataModel
+            {
+                Tags = tags,
+                Dishes = (List<Dish>)dishes
+            };
+            return View(menuData);
         }
     }
 }

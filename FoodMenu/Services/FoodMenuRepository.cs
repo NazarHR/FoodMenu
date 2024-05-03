@@ -15,14 +15,29 @@ namespace FoodMenu.Services
 
         public async Task<IEnumerable<Tag>> GetTagsAsync()
         {
-            return await _dbContext.Tags.ToListAsync();
+            return await _dbContext.Tags.Include(dt=>dt.DishTags).ThenInclude(d=>d.Dish)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Dish>> GetDishesAsync()
         {
             return await _dbContext.Dishes.ToListAsync();
         }
-        public async Task<IEnumerable<Dish>> GetDishesAsync(string fullOrPartitialName)
+        public async Task<IEnumerable<Dish>> GetDishesAsync(string tagname, bool includeIngredients = false)
+        {
+            var dishes = _dbContext.DishTags
+                .Include(dt => dt.Tag)
+                .Where(dt => dt.Tag.Name == tagname)
+                .Include(dt => dt.Dish)
+                .Select(dt => dt.Dish);
+            //var dishes = _dbContext.Dishes;
+            //if(includeIngredients )
+            //{
+            //    dishes.Include(d => d.DishIngredients).ThenInclude(d => d.Ingredient);
+            //}
+            return await dishes.ToListAsync();
+        }
+        public async Task<IEnumerable<Dish>> FindDishesAsync(string fullOrPartitialName)
         {
             return await _dbContext.Dishes.Where(d => d.Name.Contains(fullOrPartitialName)).ToListAsync();
         }

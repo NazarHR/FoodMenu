@@ -1,13 +1,24 @@
 ﻿@using FoodMenu.Data.Entitie
-@model List<Tag>
+@model MenuDataModel
 @{
     ViewData["Title"] = "Menu";
 }
-<div class="row">
-    @foreach (var tag in Model)
+<div class="row m-2">
+    @foreach (var tag in Model.Tags)
     {
         <div class="col-2">
-            @tag.Name
+            <a class="nav-item" asp-controller="Menu" asp-action="Index" asp-route-tag="@tag.Name">@tag.Name</a>
         </div> 
+    }
+</div>
+<div class="row">
+    @foreach(var dish in Model.Dishes)
+    {
+        <div class="col-3 m-2">
+            <img src="@dish.ImageURL" />
+            <h3>@dish.Name</h3>
+            <p>@dish.Name</p>
+            <p>@dish.Price</p>
+        </div>
     }
 </div>
