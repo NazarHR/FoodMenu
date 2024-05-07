@@ -23,6 +23,10 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
+                    <form asp-controller="Menu" asp-action="SearchResult" method="post" class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search" name="search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
                 </div>
             </div>
         </nav>

@@ -1,0 +1,15 @@
+﻿@model List<DishWitoutIngredientsDto>
+
+<div class="row ms-3 mt-3">
+
+    @foreach (var dish in Model)
+    {
+        <a asp-controller="Menu" asp-action="Details" asp-route-dishId="@dish.Id" class="col-3 text-decoration-none text-black">
+            <div class="col-3 m-2 justify-content-center" style="width:200px;height:400px">
+                <img class="rounded-3" src="@dish.ImageURL" style="width:200px;height:300px" />
+                <h3 class="text-center mt-2">@dish.Name</h3>
+                <p class="d-flex text-decoration-underline justify-content-center">Price: @dish.Price.ToString("N2")$</p>
+            </div>
+        </a>
+    }
+</div>

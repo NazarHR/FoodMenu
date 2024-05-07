@@ -46,5 +46,13 @@ namespace FoodMenu.Controllers
             var dishDto = _mapper.Map<DishDetailsDto>(dish);
             return View(dishDto);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> SearchResult(string search)
+        {
+            var foundDishes = await _foodMenuRepository.FindDishesAsync(search);
+            var foundDishelDto = foundDishes.Select(d => _mapper.Map<DishWitoutIngredientsDto>(d)).ToList();
+            return View(foundDishelDto);
+        }
     }
 }
