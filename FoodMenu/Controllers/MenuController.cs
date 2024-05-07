@@ -1,4 +1,5 @@
-﻿using Azure.Core;
+﻿using AutoMapper;
+using Azure.Core;
 using FoodMenu.Data.Entitie;
 using FoodMenu.Models;
 using FoodMenu.Services;
@@ -9,24 +10,27 @@ namespace FoodMenu.Controllers
     public class MenuController : Controller
     {
         private readonly IFoodMenuRepository _foodMenuRepository;
+        private readonly IMapper _mapper;
 
-        public MenuController(IFoodMenuRepository foodMenuRepository)
+        public MenuController(IFoodMenuRepository foodMenuRepository, IMapper mapper)
         {
             _foodMenuRepository = foodMenuRepository;
+            _mapper = mapper;
         }
         public async Task<IActionResult> IndexAsync(string? tag)
         {
-            List<Tag> tags = (List<Tag>)await _foodMenuRepository.GetTagsAsync();
-            
+            var tags = (List<Tag>)await _foodMenuRepository.GetTagsAsync();
+            var tagsDto = tags.Select(t=>_mapper.Map<TagDto>(t)).ToList();
             if (tag == null)
             {
-                tag = tags[0].Name;
+                tag = tagsDto[0].Name;
             }
-            List<Dish> dishes = (List<Dish>)await _foodMenuRepository.GetDishesAsync(tag);
+            var dishes = (List<Dish>)await _foodMenuRepository.GetDishesAsync(tag);
+            var dishesDto = dishes.Select(d=>_mapper.Map<DishWitoutIngredientsDto>(d)).ToList();
             var menuData = new MenuDataModel
             {
-                Tags = tags,
-                Dishes = (List<Dish>)dishes
+                Tags = tagsDto,
+                Dishes = dishesDto
             };
             return View(menuData);
         }
@@ -34,11 +38,13 @@ namespace FoodMenu.Controllers
         public async Task<IActionResult> Details(int dishId)
         {
             var dish = await _foodMenuRepository.GetDishAsync(dishId);
+
             if(dish == null)
             {
                 return NotFound();
             }
-            return View(dish);
+            var dishDto = _mapper.Map<DishDetailsDto>(dish);
+            return View(dishDto);
         }
     }
 }

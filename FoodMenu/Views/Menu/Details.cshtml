@@ -1,5 +1,5 @@
 ﻿@using FoodMenu.Data.Entitie
-@model Dish
+@model DishDetailsDto
 
 <div class="row ml-3 mt-5">
     <div class="col-3">
@@ -9,10 +9,10 @@
         <h3>@Model.Name</h3>
         <p>Ingredients:</p>
         <ul>
-            @foreach(var ingredient in Model.DishIngredients)
+            @foreach(var ingredient in Model.Ingredients)
             {
                 <li>
-                    @ingredient.Ingredient.Name
+                    @ingredient.Name
                 </li>
             }
         </ul>

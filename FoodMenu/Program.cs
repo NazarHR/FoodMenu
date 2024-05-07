@@ -17,6 +17,8 @@ namespace FoodMenu
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")
             ));
             builder.Services.AddScoped<IFoodMenuRepository, FoodMenuRepository>();
+
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             
             var app = builder.Build();
 

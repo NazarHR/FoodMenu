@@ -4,7 +4,7 @@ namespace FoodMenu.Models
 {
     public class MenuDataModel
     {
-        public List<Tag> Tags { get; set; }
-        public List<Dish> Dishes { get; set; }
+        public List<TagDto> Tags { get; set; }
+        public List<DishWitoutIngredientsDto> Dishes { get; set; }
     }
 }
